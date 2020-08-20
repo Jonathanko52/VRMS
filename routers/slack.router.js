@@ -21,10 +21,30 @@ const app = new App({
 })();
 
 //Finds Id number of channel
-router.get("/findId", (req, res) => {
-  publishMessage();
-  findEvent();
-  // findProject();
+router.get("/findEvent", (req, res, next) => {
+  Event.find({})
+    .then((events) => {
+      res.json(events);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500).json({
+        message: `/GET Internal server error: ${err}`,
+      });
+    });
+});
+
+router.get("/findProject", (req, res, next) => {
+  Project.find({})
+    .then((project) => {
+      res.json(project);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500).json({
+        message: `/GET Internal server error: ${err}`,
+      });
+    });
 });
 
 //uses Id number to send message to said channel
@@ -58,8 +78,6 @@ async function publishMessage(id, text) {
       channel: "C017L4PFAA3",
       text: "Slack Message Publish",
     });
-
-    console.log(result);
   } catch (error) {
     console.error(error);
   }
@@ -79,33 +97,4 @@ async function publishMessage1(id, text) {
   }
 }
 
-async function findEvent(req, res) {
-  Event.find({})
-    .then((events) => {
-      console.log("EVENTS", events);
-      res.json(events);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.sendStatus(500).json({
-        message: `/GET Internal server error: ${err}`,
-      });
-    });
-}
-
-async function findProject(req, res) {
-  Project.find({})
-    .then((project) => {
-      project.forEach((cur) => {
-        console.log("PROJECT", cur.name);
-      });
-      res.json(project);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.sendStatus(500).json({
-        message: `/GET Internal server error: ${err}`,
-      });
-    });
-}
 module.exports = router;

@@ -191,12 +191,32 @@ const ProjectLeaderDashboard = () => {
     }
   }
 
+  async function slackTestButton() {
+    try {
+      let event = await fetch("api/slack/findEvent");
+      let eventJson = await event.json();
+      let project = await fetch("api/slack/findProject");
+      let projectJson = await project.json();
+
+      let currentDate = new Date();
+      let pastDate = new Date(currentDate.setDate(currentDate.getDate() - 7));
+      let filteredEvents = [];
+      eventJson.forEach((cur) => {
+        if (new Date(cur.date) >= pastDate) {
+          filteredEvents.push(cur);
+        }
+      });
+      console.log("FILTERED EVENTS", filteredEvents);
+    } catch (error) {
+      console.log("error");
+    }
+  }
+
   useEffect(() => {
     getDashboardInfo();
   }, []);
 
   useEffect(() => {
-    console.log('getAttendees() called');
     getAttendees();
   }, [nextEvent]);
 
@@ -233,6 +253,14 @@ const ProjectLeaderDashboard = () => {
             isSuccess={isSuccess}
             addToTeamHandler={handleSubmit}
           />
+
+          <button
+            onClick={() => {
+              slackTestButton();
+            }}
+          >
+            SlackTest
+          </button>
 
           <div className="dashboard-chart-container">
             {/* {isCheckInReady ? ( */}

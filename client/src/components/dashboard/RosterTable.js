@@ -29,26 +29,6 @@ const RosterTable = ({ attendees, activeMeeting, RosterProjectId }) => {
     />
   );
 
-  const slackTestButton = () => {
-    fetch("api/slack/findId", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          return res.json().then((res) => {
-            throw new Error(res.message);
-          });
-        }
-        return res.json();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const gDriveClickHandler = (email, fileId) => {
     email = email;
     fileId = fileId;
@@ -115,13 +95,6 @@ const RosterTable = ({ attendees, activeMeeting, RosterProjectId }) => {
 
   return (
     <div className={styles.attendeeTable}>
-      <button
-        onClick={() => {
-          slackTestButton();
-        }}
-      >
-        SlackTest
-      </button>
       <div className={styles.attendeeTableBoxCenter}>
         <span className={styles.attendeeTableTitle}>name</span>
       </div>
