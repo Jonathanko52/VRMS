@@ -217,7 +217,7 @@ const ProjectLeaderDashboard = () => {
   }, []);
 
   useEffect(() => {
-    getAttendees();
+    // getAttendees();
   }, [nextEvent]);
 
   useEffect(() => {
